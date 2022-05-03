@@ -11,18 +11,18 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @Slf4j
-public class QuizErrorController implements ErrorController {
+public class MainErrorController implements ErrorController {
 
   @GetMapping("/error")
   public String handleError(Model model, HttpServletRequest httpRequest){
     Object status = httpRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-    String message = "Something went wrong. Please try again after sometime";
+    String message = "Что-то пошло не так. Пожалуйста попробуйте в другое время.";
     if(status != null){
       int errorCode = Integer.parseInt(status.toString());
       log.info("Errorcode "+errorCode );
       switch (errorCode){
-        case 403 : message = "Access denied to resource"; break;
-        case 404 : message = "Resource not found"; break;
+        case 403 : message = "Доступ к ресурсу закрыт"; break;
+        case 404 : message = "Ресурс не найден"; break;
       }
     }
     model.addAttribute("msg", message);
