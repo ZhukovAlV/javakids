@@ -16,21 +16,20 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item" th:classappend="${module == 'play' ? 'active' : ''}">
-        <a class="nav-link" href="#" th:href="@{/play}">Играть</a>
+    <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+      <li class="nav-item" th:classappend="${module == 'Мои лекции' ? 'active' : ''}">
+        <a class="nav-link" href="#" th:href="@{/user/lectures}">Мои лекции</a>
       </li>
-      <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${module == 'allquestions' ? 'active' : ''}">
-        <a class="nav-link" href="#" th:href="@{/questions}">Все вопросы</a>
-      </li>
-      <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item" th:classappend="${module == 'newquestion' ? 'active' : ''}">
-        <a class="nav-link" href="#" th:href="@{/question}">Добавить вопрос</a>
+    </ul>
+    <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
+      <li class="nav-item" th:classappend="${module == 'Профиль' ? 'active' : ''}">
+        <a class="nav-link" href="#" th:href="@{/user/id}">Профиль</a>
       </li>
     </ul>
     <ul class="navbar-nav">
      <li class="nav-item" sec:authorize="isAuthenticated()">
        <form th:action="@{/logout}" method="post">
-         <input type="submit" class="btn btn-primary" value="Logout">
+         <input type="submit" class="btn btn-primary" value="Выход">
        </form>
       </li>
       <li sec:authorize="!isAuthenticated()" class="nav-item">
@@ -42,5 +41,13 @@
 <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</div>
+<footer class="footer">
+  <div class="mt-4 p-5 bg-secondary text-white rounded">
+    <h1>JavaKids - обучение детей программированию на JAVA</h1>
+    <p>Мы рады видеть Вас на нашей платформе для обучения</p>
+  </div>
+</footer>
 </body>
+
 </html>
