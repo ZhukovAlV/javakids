@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <th:block th:insert="~{fragments/fragment-header :: meta}"></th:block>
-  <th:block th:insert="~{fragments/fragment-header :: title}"></th:block>
-  <th:block th:insert="~{fragments/fragment-header :: link}"></th:block>
+  <th:block th:insert="~{fragments/common :: meta}"></th:block>
+  <th:block th:insert="~{fragments/common :: title}"></th:block>
+  <th:block th:insert="~{fragments/common :: link}"></th:block>
 </head>
 <body>
-<div class="sticky-top" th:insert="fragments/fragment-header :: header"></div>
+<div class="sticky-top" th:insert="fragments/common :: header"></div>
 <div class="container">
   <div class="row">
     <div class="col-sm-8 offset-sm-2 border-dark shadow bg-white rounded">
@@ -62,7 +62,7 @@
     </div>
   </div>
 </div>
-<th:block th:insert="~{fragments/fragment-header :: body/script}"></th:block>
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
 <th:block th:insert="fragments/common :: footer"></th:block>
 <script th:src="@{/js/question_new.js}"></script>
 </body>

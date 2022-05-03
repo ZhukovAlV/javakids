@@ -2,13 +2,13 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <th:block th:insert="~{fragments/fragment-header :: meta}"></th:block>
-  <th:block th:insert="~{fragments/fragment-header :: title}"></th:block>
-  <th:block th:insert="~{fragments/fragment-header :: link}"></th:block>
+  <th:block th:insert="~{fragments/common :: meta}"></th:block>
+  <th:block th:insert="~{fragments/common :: title}"></th:block>
+  <th:block th:insert="~{fragments/common :: link}"></th:block>
   <link rel="stylesheet" th:href="@{/css/play.css}">
 </head>
 <body>
-<th:block th:insert="fragments/fragment-header :: header"></th:block>
+<th:block th:insert="fragments/common :: header"></th:block>
 <div class="container">
   <form action="#" th:action="@{/play}" th:object="${answerDto}" method="post">
     <div class="row" th:if="not ${#lists.isEmpty(answerDto.answers)}">
@@ -61,7 +61,7 @@
     <input type="hidden" hidden th:field="${answerDto.categoryId}">
   </form>
 </div>
-<th:block th:insert="~{fragments/fragment-header :: body/script}"></th:block>
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
 <th:block th:insert="fragments/common :: footer"></th:block>
 <script th:src="@{/js/play.js}"></script>
 </body>
