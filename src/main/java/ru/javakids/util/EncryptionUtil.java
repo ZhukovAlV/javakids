@@ -1,4 +1,4 @@
-package ru.javakids.javakids.util;
+package ru.javakids.util;
 
 import org.springframework.stereotype.Component;
 

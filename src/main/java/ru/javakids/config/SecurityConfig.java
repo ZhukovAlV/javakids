@@ -1,4 +1,4 @@
-package ru.javakids.javakids.config;
+package ru.javakids.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,8 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.javakids.javakids.service.UserService;
-import ru.javakids.javakids.util.EncryptionUtil;
+import ru.javakids.service.UserService;
+import ru.javakids.util.EncryptionUtil;
 
 import java.security.GeneralSecurityException;
 

@@ -1,13 +1,13 @@
-package ru.javakids.javakids.service;
+package ru.javakids.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import ru.javakids.javakids.model.User;
-import ru.javakids.javakids.model.UserDto;
-import ru.javakids.javakids.repository.UserRepository;
-import ru.javakids.javakids.util.EncryptionUtil;
+import ru.javakids.model.User;
+import ru.javakids.model.UserDto;
+import ru.javakids.repository.UserRepository;
+import ru.javakids.util.EncryptionUtil;
 
 import java.security.GeneralSecurityException;
 

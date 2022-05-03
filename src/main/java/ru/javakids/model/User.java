@@ -1,4 +1,4 @@
-package ru.javakids.javakids.model;
+package ru.javakids.model;
 
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,8 +1,8 @@
-package ru.javakids.javakids.service;
+package ru.javakids.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.javakids.javakids.model.User;
-import ru.javakids.javakids.model.UserDto;
+import ru.javakids.model.User;
+import ru.javakids.model.UserDto;
 
 import java.security.GeneralSecurityException;
 

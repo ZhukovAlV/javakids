@@ -1,4 +1,4 @@
-package ru.javakids.javakids.controller;
+package ru.javakids.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
