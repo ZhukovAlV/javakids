@@ -52,7 +52,7 @@ public class UserController {
     try {
       User user = userService.saveUser(userDto);
       request.login(userDto.getUsername(), userDto.getPassword());
-      return "redirect:/play";
+      return "redirect:/";
     } catch (GeneralSecurityException e) {
       result.rejectValue("password", Errors.NESTED_PATH_SEPARATOR,"Password is not correct" );
       return "user";
