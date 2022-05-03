@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <form action="/lecture/{{lecture.id}}/update" method="post">
+        <input type="hidden" id="id" value="{{lecture.id}}">
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" placeholder="Тема лекции" name="topic" value="{{lecture.topic}}">
+        </div>
+        <div class="mb-3">
+            <textarea id="summernote" rows="10" class="form-control" name="content">
+                {{lecture.content}}
+            </textarea>
+        </div>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit" class="btn btn-secondary" id="btn-update">Обновить</button>
+    </form>
+</div>
+
+<script>
+    $('#summernote').summernote({
+        height: 300
+    });
+</script>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

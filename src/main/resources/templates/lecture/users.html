@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <input type="hidden" id="id" value="{{principal.id}}">
+
+    {{^currentlecture}}
+        <div class="mb-3">
+            Информация о прохождении лекций пользователями  <a href="/lectures/users/export/excel"> Загрузить в Excel</a><br>
+        </div>
+    {{/currentlecture}}
+
+    {{#currentlecture}}
+        <div class="mb-3">
+            Информация о лекции "{{currentlecture.topic}}" <br>
+            Детализация по пользователям
+        </div>
+    {{/currentlecture}}
+    <table>
+        <tr>
+            <th>Id лекции</th>
+            {{^currentlecture}}
+                <th>Тема лекции</th>
+            {{/currentlecture}}
+            <th>Id пользователя</th>
+            <th>Имя пользователя</th>
+            <th>Статус лекции</th>
+        </tr>
+
+        {{#userlectures}}
+            <tr>
+                <td>{{lecture.id}}</td>
+                {{^currentlecture}}
+                    <td>{{lecture.topic}}</td>
+                {{/currentlecture}}
+                <td>{{user.id}}</td>
+                <td>{{user.username}}</td>
+                <td>{{status}}</td>
+            </tr>
+        {{/userlectures}}
+
+    </table>
+
+    <br><br>
+    {{#currentlecture}}
+        <a href="/lectures">Назад</a> <br>
+    {{/currentlecture}}
+
+    {{^currentlecture}}
+        <a href="/">Назад</a> <br>
+    {{/currentlecture}}
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

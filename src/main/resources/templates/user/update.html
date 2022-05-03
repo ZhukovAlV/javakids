@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <form action="/user/{{principal.id}}" method="post">
+        <input type="hidden" id="id" value="{{principal.id}}">
+        <div class="mb-3 mt-3">
+            <input type="text" class="form-control" value="{{principal.username}}" name="username" readonly>
+        </div>
+        <div class="mb-3">
+            <input type="password" class="form-control" value="{{principal.password}}" name="password" required>
+        </div>
+        <div class="mb-3">
+            <input type="email" class="form-control" value="{{principal.email}}" name="email" required>
+        </div>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <div><input type="submit" class="btn btn-secondary" value="Обновить"/></div>
+    </form>
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

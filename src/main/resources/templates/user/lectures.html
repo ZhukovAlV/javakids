@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <input type="hidden" id="id" value="{{principal.id}}">
+    <h3>Мои лекции:</h3>
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Название</th>
+            {{^master}}
+            <th>Статус</th>
+            {{/master}}
+        </tr>
+
+        {{#myLectures}}
+            <tr>
+                <td>{{id.lectureId}}</td>
+                <td><a href="/lecture/{{id.lectureId}}"> {{lecture.topic}} </a></td>
+                {{^master}}
+                <td>{{status}}</td>
+                {{/master}}
+            </tr>
+        {{/myLectures}}
+
+    </table>
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

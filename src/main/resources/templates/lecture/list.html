@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    table, td, th {
+        border: 1px solid #999;
+        padding: 10px;
+    }
+</style>
+
+<div class="container mt-3">
+    <div class="my-3" align="center">
+       Добавить <a href="/lecture/create">новую лекцию</a>
+    </div>
+
+    <h3>Список всех лекций:</h3>
+    <a href="/lectures/export/excel"> Загрузить в Excel</a> <br>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Тема лекции</th>
+            <th>Информация о лекции</th>
+            <th>Изменить лекцию</th>
+            <th>Удалить лекцию</th>
+        </tr>
+
+        {{#lectures}}
+            <tr>
+                <td>{{id}}</td>
+                <td><a href="/lecture/{{id}}"> {{topic}} </a></td>
+                <td><a href="/lecture/{{id}}/users"> просмотр пользователей </a></td>
+                <td><a href="/lecture/{{id}}/update"> изменить </a></td>
+                <td><a href="/lecture/{{id}}/delete"> удалить </a></td>
+            </tr>
+        {{/lectures}}
+
+    </table>
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

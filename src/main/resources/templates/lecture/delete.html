@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <form action="/lecture/{{lecture.id}}/delete" method="post">
+        <input type="hidden" id="id" value="{{lecture.id}}">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <div class="mb-3 mt-3">
+            Лекция ID {{lecture.id}} , тема: {{lecture.topic}} удалена <br><br><br><br><br>
+        </div>
+    </form>
+
+    <a href="/lectures">Назад</a> <br>
+
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>

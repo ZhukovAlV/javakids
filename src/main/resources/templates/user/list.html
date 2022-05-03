@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:insert="~{fragments/common :: meta}"></th:block>
+    <th:block th:insert="~{fragments/common :: title}"></th:block>
+    <th:block th:insert="~{fragments/common :: link}"></th:block>
+</head>
+<body>
+
+<div class="container mt-3">
+    <h3>Список всех пользователей:</h3>
+
+    <div class="my-3">
+        <a href="/users/export/excel"> Загрузить в Excel</a><br>
+    </div>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Имя пользователя</th>
+            <th>Роль</th>
+            <th>email</th>
+            <th>Информация об обучении </th>
+        </tr>
+
+        {{#users}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{username}}</td>
+                <td>{{roles}}</td>
+                <td>{{email}}</td>
+                <td><a href="/user/{{id}}/lectures"> Посмотреть </a></td>
+            </tr>
+        {{/users}}
+
+    </table>
+</div>
+
+<th:block th:insert="~{fragments/common :: body/script}"></th:block>
+<th:block th:insert="fragments/common :: footer"></th:block>
+</body>
+</html>
