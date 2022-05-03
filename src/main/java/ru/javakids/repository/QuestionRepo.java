@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Long> {
+public interface QuestionRepo extends JpaRepository<Question, Long> {
   List<Question> findAllByCategoryId(Long categoryId);
 
   Page<Question> findAllByCategoryId(Long category, Pageable page);

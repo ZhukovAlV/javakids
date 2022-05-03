@@ -9,14 +9,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
-@Data
 @Entity
+@Data
+@Table(name = "user_table")
 public class User implements UserDetails, Serializable {
   private static final long serialVersionUID = 1L;
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -34,11 +34,16 @@ public class User implements UserDetails, Serializable {
   @NotEmpty
   @NotNull
   @Column(nullable = false)
-  private String name;
+  private String email;
 
-  @Column private boolean admin;
+  @Column
+  private boolean admin;
 
-  @Column private boolean locked;
+  @Column
+  private boolean locked;
+
+  @OneToMany(mappedBy = "user")
+  protected Set<UserLecture> userLectures = new HashSet<>();
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {

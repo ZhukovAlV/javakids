@@ -11,6 +11,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class Option implements Serializable {
   private static final long serialVersionUID = 1;
+
   private String text;
   private boolean correct;
 }

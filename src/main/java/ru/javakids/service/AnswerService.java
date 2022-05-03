@@ -6,5 +6,6 @@ import ru.javakids.model.Result;
 import java.util.List;
 
 public interface AnswerService {
+
   List<Result> checkAnswer(AnswerDto answerDto);
 }

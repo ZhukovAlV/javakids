@@ -1,7 +1,7 @@
 package ru.javakids.service;
 
 import ru.javakids.model.Question;
-import ru.javakids.repository.QuestionRepository;
+import ru.javakids.repository.QuestionRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,8 @@ import java.util.Optional;
 @Slf4j
 public class QuestionServiceImpl implements ru.javakids.service.QuestionService {
 
-  @Autowired QuestionRepository questionRepository;
+  @Autowired
+  QuestionRepo questionRepository;
 
   @Override
   public void checkForErrorInNewQuestion(Question question, BindingResult bindingResult) {

@@ -2,7 +2,7 @@ package ru.javakids.service;
 
 import ru.javakids.model.Category;
 import ru.javakids.model.CategoryDto;
-import ru.javakids.repository.CategoryRepository;
+import ru.javakids.repository.CategoryRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CategoryServiceImpl implements ru.javakids.service.CategoryService {
 
-  @Autowired CategoryRepository categoryRepository;
+  @Autowired
+  CategoryRepo categoryRepository;
 
   @Override
   public List<Category> findAll() {

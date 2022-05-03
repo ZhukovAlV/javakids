@@ -14,6 +14,5 @@ public class AnswerDto implements Serializable {
   private static final long serialVersionUID = 1;
 
   List<Answer> answers;
-
   Long categoryId;
 }

@@ -14,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Data
 @Entity
-@Table(name = "question")
 @NoArgsConstructor
 public class Question implements Serializable {
   private static final long serialVersionUID = 1;

@@ -13,6 +13,5 @@ public class Answer implements Serializable {
   private static final long serialVersionUID = 1;
 
   private Question question;
-
   private Long selectedOption;
 }
