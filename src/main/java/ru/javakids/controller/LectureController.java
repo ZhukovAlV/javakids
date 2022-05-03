@@ -2,6 +2,7 @@ package ru.javakids.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.javakids.model.*;
@@ -212,11 +213,11 @@ public class LectureController {
     public String getMyLectures(Principal principal, Model model) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         Set<UserLecture> myLectures = userLectureService.getUserLecturesByUserId(userActive);
-        userActive.setUserLectures(myLectures);
+      //  userActive.setUserLectures(myLectures);
         List<UserLecture> myLecturesList = new ArrayList<>(myLectures);
         myLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
-        model.addAttribute("myLectures", myLecturesList);
-        model.addAttribute("principal", userActive);
+        model.addAttribute("lecturesList", myLecturesList);
+        //model.addAttribute("principal", userActive);
        // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
 
         return "user/lectures";

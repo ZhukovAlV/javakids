@@ -9,27 +9,18 @@
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <input type="hidden" id="id" value="{{principal.id}}">
     <h3>Мои лекции:</h3>
     <table>
         <tr>
             <th>Id</th>
             <th>Название</th>
-            {{^master}}
             <th>Статус</th>
-            {{/master}}
         </tr>
-
-        {{#myLectures}}
-            <tr>
-                <td>{{id.lectureId}}</td>
-                <td><a href="/lecture/{{id.lectureId}}"> {{lecture.topic}} </a></td>
-                {{^master}}
-                <td>{{status}}</td>
-                {{/master}}
-            </tr>
-        {{/myLectures}}
-
+        <tr th:each="lecture : ${lecturesList}" th:onclick="|window.location.href='@{/lecture/${lecture.lecture.id}}'|">
+            <td th:utext="${lecture.lecture.id}">Id</td>
+            <td th:utext="${lecture.lecture.topic}">Название</td>
+            <td th:utext="${lecture.status}">Статус</td>
+        </tr>
     </table>
 </div>
 
