@@ -7,7 +7,7 @@
     <th:block th:insert="~{fragments/common :: link}"></th:block>
 </head>
 <body>
-
+<th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
     <input type="hidden" id="id" value="{{principal.id}}">
     <h3>Лекции пользователя {{user.username}}:</h3>

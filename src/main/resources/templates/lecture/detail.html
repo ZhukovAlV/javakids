@@ -7,7 +7,7 @@
     <th:block th:insert="~{fragments/common :: link}"></th:block>
 </head>
 <body>
-
+<th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
     <form action="/lecture/{{lecture.id}}" method="post">
         <input type="hidden" id="id" value="{{lecture.id}}">
