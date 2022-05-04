@@ -63,7 +63,7 @@ public class LectureController {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
-            model.addAttribute("lecture", lecture);
+
             Optional<UserLecture> userLectureOp =
                     userLectureService.getUserLectureById(
                             new UserLecture.Id(userActive.getId(), lecture.getId()));

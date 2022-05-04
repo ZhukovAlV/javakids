@@ -9,45 +9,20 @@
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <form action="/lecture/{{lecture.id}}" method="post">
-        <input type="hidden" id="id" value="{{lecture.id}}">
-        {{#principal}}
-
-            {{^master}}
-                {{#userlecture}}
-                <div class="mb-3">
-                    Статус лекции: {{userlecture.status}}
-                </div>
-               {{/userlecture}}
-
-                {{^userlecture}}
-                    <div class="mb-3">
-                        Статус лекции: не определен
-                    </div>
-                {{/userlecture}}
-            {{/master}}
-
-            <div class="mb-3 mt-3">
-                <h1>{{lecture.topic}}</h1>
-            </div>
-            <hr />
-            <div class="mb-3">
-                {{{lecture.content}}}
-            </div>
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-            {{^master}}
-                <div><input type="submit" class="btn btn-secondary" value="Завершить"/></div>
-            {{/master}}
-        </form>
-
-         <br><br>
-            {{#master}}
-    <a href="/lectures">Назад</a> <br>
-            {{/master}}
-            {{^master}}
-    <a href="/user/lectures">Назад</a> <br>
-            {{/master}}
-        {{/principal}}
+    <form th:action="@{'/lecture/' + ${userLecture.lecture.id}}" method="post">
+        <div class="mb-3" th:utext="'Статус лекции: ' + ${userLecture.status}">
+        </div>
+        <div class="mb-3 mt-3">
+            <h1 th:utext="${userLecture.lecture.topic}">topic</h1>
+        </div>
+        <hr />
+        <div class="mb-3" th:utext="${userLecture.lecture.content}">content</h1>>
+        </div>
+        <div><input type="submit" class="btn btn-secondary" value="Завершить"/></div>
+    </form>
+<br><br>
+    <a th:href="@{/lectures}" sec:authorize="hasRole('ROLE_ADMIN')">Назад</a> <br>
+    <a th:href="@{/user/lectures}" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')">Назад</a> <br>
 </div>
 
 
