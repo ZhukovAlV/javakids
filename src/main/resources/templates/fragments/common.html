@@ -16,13 +16,13 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-      <li class="nav-item" th:classappend="${module == 'Мои лекции' ? 'active' : ''}">
+    <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')">
+      <li class="nav-item">
         <a class="nav-link" href="#" th:href="@{/user/lectures}">Мои лекции</a>
       </li>
     </ul>
     <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
-      <li class="nav-item" th:classappend="${module == 'Профиль' ? 'active' : ''}">
+      <li class="nav-item">
         <a class="nav-link" href="#" th:href="@{/user/id}">Профиль</a>
       </li>
     </ul>
