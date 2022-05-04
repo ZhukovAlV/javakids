@@ -53,8 +53,9 @@
             </td>
         </tr>
     </table>
+<br><br>
+    <a th:href="@{/}" sec:authorize="hasRole('ROLE_ADMIN')">Назад</a> <br>
 </div>
-
 <th:block th:insert="fragments/common :: footer"></th:block>
 </body>
 </html>
