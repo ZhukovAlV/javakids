@@ -21,11 +21,11 @@
 
 <div class="container mt-3">
     <div class="my-3" align="center">
-       Добавить <a href="/lecture/create">новую лекцию</a>
+       Добавить <a th:href="@{/lecture/create}">новую лекцию</a>
     </div>
 
     <h3>Список всех лекций:</h3>
-    <a href="/lectures/export/excel"> Загрузить в Excel</a> <br>
+    <a th:href="@{/lectures/export/excel}"> Загрузить в Excel</a><br>
 
     <table>
         <tr>
