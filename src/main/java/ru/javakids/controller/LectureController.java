@@ -209,16 +209,21 @@ public class LectureController {
         response.setHeader(headerKey, headerValue);
     }
 
+    /**
+     * Список лекций пользователя
+     * @param principal Пользователь сессии
+     * @param model Модель для списка лекций
+     * @return url user/lectures
+     */
     @GetMapping("/user/lectures")
     public String getMyLectures(Principal principal, Model model) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         Set<UserLecture> myLectures = userLectureService.getUserLecturesByUserId(userActive);
-      //  userActive.setUserLectures(myLectures);
+
+        // Сортируем лекции по порядку
         List<UserLecture> myLecturesList = new ArrayList<>(myLectures);
         myLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
-        model.addAttribute("lecturesList", myLecturesList);
-        //model.addAttribute("principal", userActive);
-       // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
+        model.addAttribute("userLectureList", myLecturesList);
 
         return "user/lectures";
     }

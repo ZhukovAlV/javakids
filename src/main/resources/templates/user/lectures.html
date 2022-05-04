@@ -15,11 +15,15 @@
             <th>Id</th>
             <th>Название</th>
             <th>Статус</th>
+            <th>URL</th>
         </tr>
-        <tr th:each="lecture : ${lecturesList}" th:onclick="|window.location.href='@{/lecture/${lecture.lecture.id}}'|">
-            <td th:utext="${lecture.lecture.id}">Id</td>
-            <td th:utext="${lecture.lecture.topic}">Название</td>
-            <td th:utext="${lecture.status}">Статус</td>
+        <tr th:each="userLecture : ${userLectureList}">
+            <td th:utext="${userLecture.lecture.id}">id</td>
+            <td th:utext="${userLecture.lecture.topic}">name</td>
+            <td th:utext="${userLecture.status}">status</td>
+            <td>
+                <a th:href="@{'/lecture/' + ${userLecture.lecture.id}}">Перейти к лекции</a>
+            </td>
         </tr>
     </table>
 </div>
