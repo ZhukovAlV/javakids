@@ -31,21 +31,27 @@
         <tr>
             <th>Id</th>
             <th>Тема лекции</th>
-            <th>Информация о лекции</th>
+            <th>URL</th>
+            <th>Просмотр пользователей</th>
             <th>Изменить лекцию</th>
             <th>Удалить лекцию</th>
         </tr>
-
-        {{#lectures}}
-            <tr>
-                <td>{{id}}</td>
-                <td><a href="/lecture/{{id}}"> {{topic}} </a></td>
-                <td><a href="/lecture/{{id}}/users"> просмотр пользователей </a></td>
-                <td><a href="/lecture/{{id}}/update"> изменить </a></td>
-                <td><a href="/lecture/{{id}}/delete"> удалить </a></td>
-            </tr>
-        {{/lectures}}
-
+        <tr th:each="lecture : ${lecturesList}">
+            <td th:utext="${lecture.id}">id</td>
+            <td th:utext="${lecture.topic}">topic</td>
+            <td>
+                <a th:href="@{'/lecture/' + ${lecture.id}}">Перейти к лекции</a>
+            </td>
+            <td>
+                <a th:href="@{'/lecture/' + ${lecture.id} + '/users/'}">Просмотр пользователей</a>
+            </td>
+            <td>
+                <a th:href="@{'/lecture/' + ${lecture.id} + '/update/'}">Изменить</a>
+            </td>
+            <td>
+                <a th:href="@{'/lecture/' + ${lecture.id} + '/delete/'}">Удалить</a>
+            </td>
+        </tr>
     </table>
 </div>
 

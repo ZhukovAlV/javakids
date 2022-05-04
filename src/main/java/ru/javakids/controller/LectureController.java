@@ -32,25 +32,33 @@ public class LectureController {
         this.userService = userService;
     }
 
+    /**
+     * Список всех лекций
+     * @param model Модель для списка лекций
+     * @return Список всех лекций
+     */
     @GetMapping("/lectures")
-    public String getAllLectures(Principal principal, Model model) {
+    public String getAllLectures(Model model) {
         Set<Lecture> lectures = lectureService.getLectures();
+
+        // Сортируем лекции и добавляем в model
         List<Lecture> lecturesList = new ArrayList<>(lectures);
         lecturesList.sort(Comparator.comparingLong(Lecture::getId));
-        model.addAttribute("lectures", lecturesList);
-
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
-        model.addAttribute("principal", userActive);
-       // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
+        model.addAttribute("lecturesList", lecturesList);
 
         return "/lecture/list";
     }
 
+    /**
+     * Страница лекции
+     * @param principal Пользователь
+     * @param model Модель для лекции
+     * @param lectureId Id лекции
+     * @return URL lecture/detail
+     */
     @GetMapping(value = "/lecture/{id}")
     public String getLectureById(Principal principal, Model model, @PathVariable("id") Long lectureId) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
-        model.addAttribute("principal", userActive);
-       // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
 
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
@@ -61,16 +69,16 @@ public class LectureController {
                             new UserLecture.Id(userActive.getId(), lecture.getId()));
             if (userLectureOp.isPresent()) {
                 UserLecture userLecture = userLectureOp.get();
+
+                // Меняем статус лекции, если пользователь ее открыл
                 userLecture.setStatus(userLectureService.getCorrectStatus(userLecture));
                 userLectureService.updateUserLecture(userLecture, userLecture.getId());
                 userLectureService.saveUserLecture(userLecture);
-                model.addAttribute("userlecture", userLecture);
+
+                // Добавлем список в model
+                model.addAttribute("userLecture", userLecture);
             }
-
-        } else {
-            return "/error/page";
         }
-
         return "lecture/detail";
     }
 
@@ -211,9 +219,9 @@ public class LectureController {
 
     /**
      * Список лекций пользователя
-     * @param principal Пользователь сессии
+     * @param principal Пользователь
      * @param model Модель для списка лекций
-     * @return url user/lectures
+     * @return URL user/lectures
      */
     @GetMapping("/user/lectures")
     public String getMyLectures(Principal principal, Model model) {
@@ -223,6 +231,8 @@ public class LectureController {
         // Сортируем лекции по порядку
         List<UserLecture> myLecturesList = new ArrayList<>(myLectures);
         myLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
+
+        // Добавлем список в model
         model.addAttribute("userLectureList", myLecturesList);
 
         return "user/lectures";
