@@ -98,12 +98,12 @@ public class LectureController {
         return "redirect:/user/lectures";
     }
 
+    /**
+     * Переход на форму создания лекции
+     * @return URL /lecture/add"
+     */
     @GetMapping("/lecture/create")
-    public String createLecture(Principal principal, Model model) {
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
-        model.addAttribute("principal", userActive);
-      //  if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
-
+    public String createLecture() {
         return "/lecture/add";
     }
 
