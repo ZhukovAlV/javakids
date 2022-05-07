@@ -94,7 +94,7 @@ public class UserController {
    */
   @GetMapping("/user/update")
   public String updateUser(Principal principal, Model model) {
-    User userActive = (User) userService.loadUserByUsername(principal.getName());
+    User userActive = (User) userService.loadUserByUsernameWithDecryptionPassword(principal.getName());
     model.addAttribute("user", userActive);
 
     return "/user/update";
@@ -105,7 +105,6 @@ public class UserController {
    * @param userDto Пользователь
    * @param id ID пользователя
    * @return Страница с обновленным пользователем
-   * @throws GeneralSecurityException
    */
   @PostMapping("/user/{id}/update")
   public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, @PathVariable Long id) throws GeneralSecurityException {

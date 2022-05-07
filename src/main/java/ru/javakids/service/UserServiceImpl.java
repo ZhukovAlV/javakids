@@ -1,5 +1,6 @@
 package ru.javakids.service;
 
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,11 +33,22 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+  public UserDetails loadUserByUsername(String username) {
     User user = userRepository.findByUsername(username);
     if (user == null) {
       throw new UsernameNotFoundException("Пользователь " + username + " не найден в базе данных");
     }
+    return user;
+  }
+
+  @SneakyThrows
+  @Override
+  public UserDetails loadUserByUsernameWithDecryptionPassword(String username) throws UsernameNotFoundException {
+    User user = userRepository.findByUsername(username);
+    if (user == null) {
+      throw new UsernameNotFoundException("Пользователь " + username + " не найден в базе данных");
+    }
+    user.setPassword(encryptionUtil.decrypt(user.getPassword()));
     return user;
   }
 
@@ -85,8 +97,8 @@ public class UserServiceImpl implements UserService {
       user.setUsername(userDto.getUsername());
       user.setEmail(userDto.getEmail());
       user.setPassword(encryptionUtil.encrypt(userDto.getPassword()));
-      user.setAdmin(false);
-      user.setLocked(false);
+      user.setAdmin(user.isAdmin());
+      user.setLocked(user.isLocked());
       userRepository.save(user);
       return user;
     } else {
