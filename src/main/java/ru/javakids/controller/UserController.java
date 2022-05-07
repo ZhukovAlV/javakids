@@ -82,7 +82,6 @@ public class UserController {
   public String getUserDetail(Principal principal, Model model) {
     User userActive = (User) userService.loadUserByUsername(principal.getName());
     model.addAttribute("user", userActive);
-
     return "user/detail";
   }
 
@@ -96,7 +95,6 @@ public class UserController {
   public String updateUser(Principal principal, Model model) {
     User userActive = (User) userService.loadUserByUsernameWithDecryptionPassword(principal.getName());
     model.addAttribute("user", userActive);
-
     return "/user/update";
   }
 
@@ -109,16 +107,18 @@ public class UserController {
   @PostMapping("/user/{id}/update")
   public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, @PathVariable Long id) throws GeneralSecurityException {
     userService.updateUser(id, userDto);
-
     return "redirect:/user/detail";
   }
 
-
+  /**
+   * Возвращает всех пользователей
+   * @param model Модель для списка пользователей
+   * @return URL /user/list
+   */
   @GetMapping("/users")
   public String getUsersList(Model model){
     List<User> users = userService.getUsersList();
     model.addAttribute("users", users);
-
     return "/user/list";
   }
 }
