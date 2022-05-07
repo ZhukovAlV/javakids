@@ -6,10 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.javakids.model.User;
 import ru.javakids.model.UserDto;
 import ru.javakids.service.UserService;
@@ -18,6 +15,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.security.GeneralSecurityException;
+import java.security.Principal;
+import java.util.List;
 
 @Controller
 public class UserController {
@@ -30,12 +29,23 @@ public class UserController {
     return new UserDto();
   }
 
-  @GetMapping("/user")
-  public String getNewUser(Model model){
+  /**
+   * URL страницы создания нового пользователя
+   * @return страница создания нового пользователя
+   */
+  @GetMapping("/user/add")
+  public String getNewUser(){
     return "user/add";
   }
 
-  @PostMapping("/user")
+  /**
+   *
+   * @param userDto Пользователь
+   * @param result Результат аутентификации
+   * @param request Запрос Http
+   * @return Окно создания нового пользователя или главная страница
+   */
+  @PostMapping("/user/add")
   public String saveUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, HttpServletRequest request){
     if(!userDto.getPassword().equals(userDto.getConfirmpassword())){
       result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пароли не совпадают" );
@@ -62,4 +72,54 @@ public class UserController {
     }
   }
 
+  /**
+   *
+   * @param principal Пользователь
+   * @param model Информация по пользователю для отображения
+   * @return URL user/detail
+   */
+  @GetMapping("/user/detail")
+  public String getUserDetail(Principal principal, Model model) {
+    User userActive = (User) userService.loadUserByUsername(principal.getName());
+    model.addAttribute("user", userActive);
+
+    return "user/detail";
+  }
+
+  /**
+   *
+   * @param principal Пользователь
+   * @param model Информация по пользователю для отображения
+   * @return URL user/update
+   */
+  @GetMapping("/user/update")
+  public String updateUser(Principal principal, Model model) {
+    User userActive = (User) userService.loadUserByUsername(principal.getName());
+    model.addAttribute("user", userActive);
+
+    return "/user/update";
+  }
+
+  /**
+   *
+   * @param userDto Пользователь
+   * @param id ID пользователя
+   * @return Страница с обновленным пользователем
+   * @throws GeneralSecurityException
+   */
+  @PostMapping("/user/{id}/update")
+  public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, @PathVariable Long id) throws GeneralSecurityException {
+    userService.updateUser(id, userDto);
+
+    return "redirect:/user/detail";
+  }
+
+
+  @GetMapping("/users")
+  public String getUsersList(Model model){
+    List<User> users = userService.getUsersList();
+    model.addAttribute("users", users);
+
+    return "/user/list";
+  }
 }

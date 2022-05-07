@@ -11,10 +11,12 @@
 <div class="container mt-3">
     <form action="/user/update" method="get">
         <div class="mb-3 mt-3">
-            {{principal.username}}
+            <label>Имя пользователя:</label>
+            <td th:utext="${user.username}">login</td>
         </div>
         <div class="mb-3">
-            {{principal.email}}
+            <label>E-mail:</label>
+            <td th:utext="${user.email}">email</td>
         </div>
         <div><input type="submit" class="btn btn-secondary" value="Изменить"/></div>
     </form>

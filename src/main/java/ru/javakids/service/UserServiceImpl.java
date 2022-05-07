@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.javakids.exception.UsernameNotUpdatedException;
 import ru.javakids.model.User;
 import ru.javakids.model.UserDto;
 import ru.javakids.repository.UserRepo;
@@ -33,7 +35,7 @@ public class UserServiceImpl implements UserService {
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = userRepository.findByUsername(username);
     if (user == null) {
-      throw new UsernameNotFoundException("User " + username + " was not found in the database");
+      throw new UsernameNotFoundException("Пользователь " + username + " не найден в базе данных");
     }
     return user;
   }
@@ -43,7 +45,7 @@ public class UserServiceImpl implements UserService {
     Optional<User> userOp = userRepository.findById(id);
 
     if (userOp.isEmpty()) {
-      throw new UsernameNotFoundException("User not found");
+      throw new UsernameNotFoundException("Пользователь не найден");
     }
     return userOp.get();
   }
@@ -71,23 +73,27 @@ public class UserServiceImpl implements UserService {
 
     userRepo.save(user);
   }
+  */
 
   @Transactional
-  public Optional<User> updateUser(Long id, User user) {
-    Optional<User> userOp = userRepo.findById(id);
+  public User updateUser(Long id, UserDto userDto) throws GeneralSecurityException {
+    Optional<User> userOp = userRepository.findById(id);
 
     if (userOp.isPresent()) {
+      User user = userOp.get();
       user.setId(id);
-      user.setActive(userOp.get().isActive());
-      user.setRoles(userOp.get().getRoles());
-      user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-      userRepo.save(user);
-      return userRepo.findById(id);
+      user.setUsername(userDto.getUsername());
+      user.setEmail(userDto.getEmail());
+      user.setPassword(encryptionUtil.encrypt(userDto.getPassword()));
+      user.setAdmin(false);
+      user.setLocked(false);
+      userRepository.save(user);
+      return user;
     } else {
-      return userOp;
+      throw new UsernameNotUpdatedException("Пользователь не обновлен");
     }
   }
-  */
+
   @Override
   public List<User> getUsersList() {
     List<User> result = new ArrayList<>();

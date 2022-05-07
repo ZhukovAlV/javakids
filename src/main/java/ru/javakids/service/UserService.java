@@ -15,5 +15,7 @@ public interface UserService extends UserDetailsService {
 
   User saveUser(UserDto userDto) throws GeneralSecurityException;
 
+  User updateUser(Long id, UserDto userDto) throws GeneralSecurityException;
+
   List<User> getUsersList();
 }

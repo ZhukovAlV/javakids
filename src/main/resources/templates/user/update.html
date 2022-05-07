@@ -9,18 +9,20 @@
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <form action="/user/{{principal.id}}" method="post">
-        <input type="hidden" id="id" value="{{principal.id}}">
+    <form th:action="@{${user.id} + '/update'}" method="post">
+        <input type="hidden" id="id" value="${user.id}">
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" value="{{principal.username}}" name="username" readonly>
+            <input type="text" class="form-control" th:value="${user.username}" name="username" readonly>
         </div>
         <div class="mb-3">
-            <input type="password" class="form-control" value="{{principal.password}}" name="password" required>
+            <input type="email" class="form-control" th:value="${user.email}" name="email" required>
         </div>
         <div class="mb-3">
-            <input type="email" class="form-control" value="{{principal.email}}" name="email" required>
+            <input type="password" class="form-control" th:value="${user.password}" name="password" required>
         </div>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <div class="mb-3">
+            <input type="password" class="form-control" th:value="${user.password}" name="confirmpassword" required>
+        </div>
         <div><input type="submit" class="btn btn-secondary" value="Обновить"/></div>
     </form>
 </div>
