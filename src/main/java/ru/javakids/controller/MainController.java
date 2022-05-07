@@ -25,7 +25,7 @@ public class MainController {
   @PreAuthorize("permitAll()")
   @RequestMapping("/login")
   public String getLogin() {
-    return "login";
+    return "user/login";
   }
 
   @PreAuthorize("permitAll()")
