@@ -9,7 +9,7 @@ public class UserDto {
   @NotEmpty
   private String username;
   @NotEmpty
-  private String name;
+  private String email;
   @NotEmpty
   private String password;
   @NotEmpty

@@ -33,33 +33,33 @@ public class UserController {
 
   @GetMapping
   public String getNewUser(Model model){
-    return "user";
+    return "user/add";
   }
 
   @PostMapping
   public String saveUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, HttpServletRequest request){
     if(!userDto.getPassword().equals(userDto.getConfirmpassword())){
-      result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Confirm password not equal to  password" );
+      result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пароли не совпадают" );
     }
 
     User existingUser = userService.findByUsername(userDto.getUsername());
     if(existingUser != null){
-      result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Username already exits" );
+      result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пользователь уже существует" );
     }
     if(result.hasErrors()){
-      return "user";
+      return "user/add";
     }
     try {
       User user = userService.saveUser(userDto);
       request.login(userDto.getUsername(), userDto.getPassword());
       return "redirect:/";
     } catch (GeneralSecurityException e) {
-      result.rejectValue("password", Errors.NESTED_PATH_SEPARATOR,"Password is not correct" );
-      return "user";
+      result.rejectValue("password", Errors.NESTED_PATH_SEPARATOR,"Не верный пароль" );
+      return "user/add";
     } catch (ServletException e) {
       result.addError(
-          new ObjectError("loginError", "Error in login"));
-      return "user";
+          new ObjectError("loginError", "Ошибка в имени пользователя"));
+      return "user/add";
     }
   }
 

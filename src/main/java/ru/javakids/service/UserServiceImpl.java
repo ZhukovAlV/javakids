@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public User saveUser(UserDto userDto) throws GeneralSecurityException {
     User user = new User();
-    user.setEmail(userDto.getName());
+    user.setEmail(userDto.getEmail());
     user.setUsername(userDto.getUsername());
     user.setPassword(encryptionUtil.encrypt(userDto.getPassword()));
     user.setAdmin(false);
