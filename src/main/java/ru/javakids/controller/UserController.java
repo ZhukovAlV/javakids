@@ -20,7 +20,6 @@ import javax.validation.Valid;
 import java.security.GeneralSecurityException;
 
 @Controller
-@RequestMapping("/user")
 public class UserController {
 
   @Autowired
@@ -31,12 +30,12 @@ public class UserController {
     return new UserDto();
   }
 
-  @GetMapping
+  @GetMapping("/user")
   public String getNewUser(Model model){
     return "user/add";
   }
 
-  @PostMapping
+  @PostMapping("/user")
   public String saveUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, HttpServletRequest request){
     if(!userDto.getPassword().equals(userDto.getConfirmpassword())){
       result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пароли не совпадают" );
