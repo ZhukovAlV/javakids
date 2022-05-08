@@ -130,10 +130,18 @@ public class LectureController {
         return "redirect:/lecture/" + lectureId;
     }
 
-    //    @DeleteMapping("/lecture/{id}/delete") // не работает
-    @RequestMapping(value = "/lecture/{id}/delete", method = {RequestMethod.GET, RequestMethod.POST})
-    public String deleteLecture(Principal principal, Model model, @PathVariable("id") Long lectureId) {
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
+    @GetMapping("/lecture/{id}/delete")
+    public String getDeleteLecturePage(Model model, @PathVariable("id") Long lectureId) {
+        Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
+        if (lectureOp.isPresent()) {
+            Lecture lecture = lectureOp.get();
+            model.addAttribute("lecture", lecture);
+        }
+        return "/lecture/delete";
+    }
+
+    @PostMapping("/lecture/{id}/delete")
+    public String deleteLecture(Model model, @PathVariable("id") Long lectureId) {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
@@ -143,12 +151,8 @@ public class LectureController {
                 userLectureService.deleteUserLecture(userLecture.getId());
             }
             lectureService.deleteLecture(lectureId);
-        } else {
-            return "/error/page";
         }
-        model.addAttribute("principal", userActive);
-       // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
-        return "/lecture/delete";
+        return "redirect:/lectures";
     }
 
     @GetMapping("/lecture/{id}/users")
