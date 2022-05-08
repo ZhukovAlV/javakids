@@ -29,7 +29,7 @@ public class MainController {
   }
 
   @PreAuthorize("permitAll()")
-  @GetMapping({"/", "/play"})
+  @GetMapping("/")
   public String getPlayQuiz(Model model, @RequestParam("category") Optional<Long> category) {
 /*    model.addAttribute("categories", categoryService.findAll());
     if (category.isPresent()) {

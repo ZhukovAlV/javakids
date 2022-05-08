@@ -24,7 +24,7 @@ public class UserController {
   @Autowired
   UserService userService;
 
-  @ModelAttribute("user")
+  @ModelAttribute("/user")
   public UserDto userDto(){
     return new UserDto();
   }
@@ -33,9 +33,9 @@ public class UserController {
    * URL страницы создания нового пользователя
    * @return страница создания нового пользователя
    */
-  @GetMapping("user/add")
+  @GetMapping("/user/add")
   public String getNewUser(){
-    return "user/add";
+    return "/user/add";
   }
 
   /**
@@ -45,7 +45,7 @@ public class UserController {
    * @param request Запрос Http
    * @return Окно создания нового пользователя или главная страница
    */
-  @PostMapping("user/add")
+  @PostMapping("/user/add")
   public String saveUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult result, HttpServletRequest request){
     if(!userDto.getPassword().equals(userDto.getConfirmpassword())){
       result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пароли не совпадают" );
@@ -56,7 +56,7 @@ public class UserController {
       result.rejectValue("username", Errors.NESTED_PATH_SEPARATOR,"Пользователь уже существует" );
     }
     if(result.hasErrors()){
-      return "user/add";
+      return "/user/add";
     }
     try {
       User user = userService.saveUser(userDto);
@@ -64,11 +64,11 @@ public class UserController {
       return "redirect:/";
     } catch (GeneralSecurityException e) {
       result.rejectValue("password", Errors.NESTED_PATH_SEPARATOR,"Не верный пароль" );
-      return "user/add";
+      return "/user/add";
     } catch (ServletException e) {
       result.addError(
           new ObjectError("loginError", "Ошибка в имени пользователя"));
-      return "user/add";
+      return "/user/add";
     }
   }
 
@@ -78,11 +78,11 @@ public class UserController {
    * @param model Информация по пользователю для отображения
    * @return URL user/detail
    */
-  @GetMapping("user/detail")
+  @GetMapping("/user/detail")
   public String getUserDetail(Principal principal, Model model) {
     User userActive = (User) userService.loadUserByUsername(principal.getName());
     model.addAttribute("user", userActive);
-    return "user/detail";
+    return "/user/detail";
   }
 
   /**
@@ -91,11 +91,11 @@ public class UserController {
    * @param model Информация по пользователю для отображения
    * @return URL user/update
    */
-  @GetMapping("user/update")
+  @GetMapping("/user/update")
   public String updateUser(Principal principal, Model model) {
     User userActive = (User) userService.loadUserByUsernameWithDecryptionPassword(principal.getName());
     model.addAttribute("user", userActive);
-    return "user/update";
+    return "/user/update";
   }
 
   /**
@@ -104,7 +104,7 @@ public class UserController {
    * @param id ID пользователя
    * @return Страница с обновленным пользователем
    */
-  @PostMapping("user/{id}/update")
+  @PostMapping("/user/{id}/update")
   public String updateUser(@ModelAttribute("user") @Valid UserDto userDto, @PathVariable Long id) throws GeneralSecurityException {
     userService.updateUser(id, userDto);
     return "redirect:/user/detail";
@@ -115,10 +115,10 @@ public class UserController {
    * @param model Модель для списка пользователей
    * @return URL user/list
    */
-  @GetMapping("users")
+  @GetMapping("/users")
   public String getUsersList(Model model){
     List<User> users = userService.getUsersList();
     model.addAttribute("users", users);
-    return "user/list";
+    return "/user/list";
   }
 }

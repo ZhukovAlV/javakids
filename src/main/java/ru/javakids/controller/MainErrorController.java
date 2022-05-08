@@ -26,7 +26,7 @@ public class MainErrorController implements ErrorController {
       }
     }
     model.addAttribute("msg", message);
-    return "error";
+    return "/error";
   }
 
   public String getErrorPath() {

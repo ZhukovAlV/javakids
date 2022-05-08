@@ -27,7 +27,7 @@ import java.util.Optional;
 @Controller
 @Slf4j
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-public class AdminController {
+public class QuestionController {
 
   @Autowired QuestionService questionService;
 
@@ -49,7 +49,7 @@ public class AdminController {
     }
     model.addAttribute("module", "allquestions");
     model.addAttribute("categories", categoryService.findAll());
-    return "question_list";
+    return "/quiz/question_list";
   }
 
 
@@ -67,7 +67,7 @@ public class AdminController {
     model.addAttribute("question", question);
     model.addAttribute("module", "newquestion");
     model.addAttribute("categories", categoryService.findAll());
-    return "question_new";
+    return "/quiz/question_new";
   }
 
   @PostMapping("/question")
@@ -79,7 +79,7 @@ public class AdminController {
     questionService.checkQuestionExistsForCategory(question, bindingResult);
     if (bindingResult.hasErrors()) {
       model.addAttribute("categories", categoryService.findAll());
-      return "question_new";
+      return "/quiz/question_new";
     }
     questionService.save(question);
     redirectAttributes.addFlashAttribute("added", true);
@@ -102,7 +102,7 @@ public class AdminController {
     CategoryDto categoryDto = new CategoryDto();
     categoryDto.setCategories(new ArrayList<Category>(Collections.singletonList(new Category())));
     model.addAttribute("categoryDto", categoryDto);
-    return "category";
+    return "/quiz/category";
   }
 
   @PostMapping("/category")
@@ -113,7 +113,7 @@ public class AdminController {
     // TODO: could be done using annotations may be ?
     categoryService.checkCategoryExist(categoryDto, bindingResult);
     if (bindingResult.hasErrors()) {
-      return "category";
+      return "/quiz/category";
     }
     categoryService.saveAll(categoryDto);
     redirectAttributes.addFlashAttribute("added", true);

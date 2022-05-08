@@ -15,7 +15,7 @@ import java.util.List;
 /** Utility controller to add new questions quickly :P */
 @RestController
 @Slf4j
-public class MainRestController {
+public class QuizController {
 
   @Autowired QuestionService questionService;
 
