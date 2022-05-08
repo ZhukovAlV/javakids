@@ -207,8 +207,13 @@ public class LectureController {
         return "lecture/users";
     }
 
-/*    @GetMapping("lectures/users")
-    public String getUserLecturesList(Principal principal, Model model) {
+    /**
+     * Страница всех лекций с пользователями
+     * @param model Модель для списка всех лекций по пользователям
+     * @return Страница всех лекций с пользователями
+     */
+    @GetMapping("lectures/users")
+    public String getUserLecturesList(Model model) {
         Set<Lecture> lectures = lectureService.getLectures();
         Set<UserLecture> allUserLectures = new HashSet<>();
         for (Lecture lecture : lectures) {
@@ -217,13 +222,9 @@ public class LectureController {
         }
         List<UserLecture> userLecturesList = new ArrayList<>(allUserLectures);
         userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
-        model.addAttribute("userlectures", userLecturesList);
-
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
-        model.addAttribute("principal", userActive);
-      //  if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
+        model.addAttribute("userLectures", userLecturesList);
         return "lecture/users";
-    }*/
+    }
 
     /**
      * Выгрузка лекций в ексель
