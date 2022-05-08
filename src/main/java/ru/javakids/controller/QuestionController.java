@@ -57,9 +57,6 @@ public class QuestionController {
   @GetMapping({"/question"})
   public String getAddNewQuiz(
       @ModelAttribute("question") Question question, Model model, Principal principal) {
-
-    log.info(principal.toString());
-
     question.getOptions().put(1L, new Option());
     question.getOptions().put(2L, new Option());
     question.getOptions().put(3L, new Option());
