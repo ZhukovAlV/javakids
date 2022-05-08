@@ -158,22 +158,13 @@ public class LectureController {
     }
 
     @GetMapping("/lecture/{id}/users")
-    public String getUserLectures(Principal principal, Model model, @PathVariable("id") Long lectureId) {
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
-        Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
-        if (lectureOp.isPresent()) {
-            Lecture lecture = lectureOp.get();
-            model.addAttribute("currentlecture", lecture);
-            Set<UserLecture> userLectures = userLectureService.getUserLecturesByLectureId(lectureId);
+    public String getUserLectures(Model model, @PathVariable("id") Long lectureId) {
+        Set<UserLecture> userLectures = userLectureService.getUserLecturesByLectureId(lectureId);
+        if (!userLectures.isEmpty()) {
             List<UserLecture> userLecturesList = new ArrayList<>(userLectures);
             userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getUser().getId()));
-            model.addAttribute("userlectures", userLecturesList);
-        } else {
-            return "/error/page";
+            model.addAttribute("userLectures", userLecturesList);
         }
-
-        model.addAttribute("principal", userActive);
-      //  if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
         return "/lecture/users";
     }
 

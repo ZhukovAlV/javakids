@@ -9,53 +9,27 @@
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <input type="hidden" id="id" value="{{principal.id}}">
-
-    {{^currentlecture}}
         <div class="mb-3">
-            Информация о прохождении лекций пользователями  <a href="/lectures/users/export/excel"> Загрузить в Excel</a><br>
+            Информация о прохождении лекции пользователями  <a href="/lectures/users/export/excel"> Загрузить в Excel</a><br>
         </div>
-    {{/currentlecture}}
-
-    {{#currentlecture}}
-        <div class="mb-3">
-            Информация о лекции "{{currentlecture.topic}}" <br>
-            Детализация по пользователям
-        </div>
-    {{/currentlecture}}
     <table>
         <tr>
             <th>Id лекции</th>
-            {{^currentlecture}}
-                <th>Тема лекции</th>
-            {{/currentlecture}}
+            <th>Тема лекции</th>
             <th>Id пользователя</th>
             <th>Имя пользователя</th>
             <th>Статус лекции</th>
         </tr>
-
-        {{#userlectures}}
-            <tr>
-                <td>{{lecture.id}}</td>
-                {{^currentlecture}}
-                    <td>{{lecture.topic}}</td>
-                {{/currentlecture}}
-                <td>{{user.id}}</td>
-                <td>{{user.username}}</td>
-                <td>{{status}}</td>
-            </tr>
-        {{/userlectures}}
-
+        <tr th:each="userLecture : ${userLectures}">
+            <td th:utext=${userLecture.lecture.id}>idLecture</td>
+            <td th:utext=${userLecture.lecture.topic}>topic</td>
+            <td th:utext=${userLecture.user.id}>idUser</td>
+            <td th:utext=${userLecture.user.username}>username</td>
+            <td th:utext=${userLecture.status}>status</td>
+        </tr>
     </table>
-
     <br><br>
-    {{#currentlecture}}
         <a href="/lectures">Назад</a> <br>
-    {{/currentlecture}}
-
-    {{^currentlecture}}
-        <a href="/">Назад</a> <br>
-    {{/currentlecture}}
 </div>
 
 <th:block th:insert="fragments/common :: footer"></th:block>
