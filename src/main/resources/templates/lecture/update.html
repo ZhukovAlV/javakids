@@ -5,31 +5,32 @@
     <th:block th:insert="~{fragments/common :: meta}"></th:block>
     <th:block th:insert="~{fragments/common :: title}"></th:block>
     <th:block th:insert="~{fragments/common :: link}"></th:block>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
 </head>
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <form action="/lecture/{{lecture.id}}/update" method="post">
+    <form th:action="@{'/lecture/' + ${lecture.id}} + '/update'" method="post">
         <input type="hidden" id="id" value="{{lecture.id}}">
         <div class="mb-3 mt-3">
-            <input type="text" class="form-control" placeholder="Тема лекции" name="topic" value="{{lecture.topic}}">
+            <input type="text" class="form-control" placeholder="Тема лекции" name="topic" th:value="${lecture.topic}">
         </div>
         <div class="mb-3">
-            <textarea id="summernote" rows="10" class="form-control" name="content">
-                {{lecture.content}}
+            <textarea id="summernote" rows="10" class="form-control" name="content" th:utext="${lecture.content}">
+                content
             </textarea>
         </div>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
         <button type="submit" class="btn btn-secondary" id="btn-update">Обновить</button>
     </form>
 </div>
 
+<th:block th:insert="~{fragments/common :: script}"></th:block>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
 <script>
     $('#summernote').summernote({
         height: 300
     });
 </script>
-
 <th:block th:insert="fragments/common :: footer"></th:block>
 </body>
 </html>

@@ -114,18 +114,12 @@ public class LectureController {
     }
 
     @GetMapping("/lecture/{id}/update")
-    public String updateLecture(Principal principal, Model model, @PathVariable("id") Long lectureId) {
+    public String updateLecture(Model model, @PathVariable("id") Long lectureId) {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
             model.addAttribute("lecture", lecture);
-        } else {
-            return "/error/page";
         }
-
-        User userActive = (User) userService.loadUserByUsername(principal.getName());
-        model.addAttribute("principal", userActive);
-       // if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
         return "/lecture/update";
     }
 
