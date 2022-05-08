@@ -64,19 +64,18 @@ public class LectureController {
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
 
+            // Добавлем лекцию в model
+            model.addAttribute("lecture", lecture);
+
+            // Меяем статус если пользователь открыл лекцию
             Optional<UserLecture> userLectureOp =
                     userLectureService.getUserLectureById(
                             new UserLecture.Id(userActive.getId(), lecture.getId()));
             if (userLectureOp.isPresent()) {
                 UserLecture userLecture = userLectureOp.get();
-
-                // Меняем статус лекции, если пользователь ее открыл
                 userLecture.setStatus(userLectureService.getCorrectStatus(userLecture));
                 userLectureService.updateUserLecture(userLecture, userLecture.getId());
                 userLectureService.saveUserLecture(userLecture);
-
-                // Добавлем список в model
-                model.addAttribute("userLecture", userLecture);
             }
         }
         return "lecture/detail";
