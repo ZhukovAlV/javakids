@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <th:block th:insert="~{fragments/common :: meta}"></th:block>
     <th:block th:insert="~{fragments/common :: title}"></th:block>
@@ -19,21 +18,15 @@
         <tr>
             <th>Id</th>
             <th>Имя пользователя</th>
-            <th>Роль</th>
             <th>email</th>
             <th>Информация об обучении </th>
         </tr>
-
-        {{#users}}
-            <tr>
-                <td>{{id}}</td>
-                <td>{{username}}</td>
-                <td>{{roles}}</td>
-                <td>{{email}}</td>
-                <td><a href="/user/{{id}}/lectures"> Посмотреть </a></td>
-            </tr>
-        {{/users}}
-
+        <tr th:each="user : ${users}">
+            <td th:utext="${user.id}">id</td>
+            <td th:utext="${user.username}">username</td>
+            <td th:utext="${user.email}">email</td>
+            <td><a th:href="@{'/user/' + ${user.id} + '/lectures'}"> Посмотреть </a></td>
+        </tr>
     </table>
 </div>
 

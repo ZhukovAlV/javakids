@@ -272,21 +272,30 @@ public class LectureController {
         return "user/lectures";
     }
 
-/*    @GetMapping("user/{id}/lectures")
+    /**
+     * Список лекций по конкретному пользователю (у админа)
+     * @param principal Пользователь
+     * @param id ID лекции
+     * @param model Модель для списка лекций
+     * @return Список лекций по конкретному пользователю
+     */
+    @GetMapping("user/{id}/lectures")
     public String getUserLectures(Principal principal, @PathVariable Long id, Model model) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         model.addAttribute("principal", userActive);
 
         User user = userService.loadUserById(id);
         if (user != null) {
+            // Модель пользователя для отображения имени пользователя на странице у администратора
             model.addAttribute("user", user);
 
+            // Список лекций
             Set<UserLecture> userLectures = userLectureService.getUserLecturesByUserId(user);
             user.setUserLectures(userLectures);
             List<UserLecture> userLecturesList = new ArrayList<>(userLectures);
             userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
-            model.addAttribute("userLectures", userLecturesList);
+            model.addAttribute("userLectureList", userLecturesList);
         }
-        return "user/userlectures";
-    }*/
+        return "user/lectures";
+    }
 }
