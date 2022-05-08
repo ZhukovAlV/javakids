@@ -33,11 +33,11 @@ public class LectureController {
     }
 
     /**
-     * Список всех лекций
+     * Страница со списком всех лекций
      * @param model Модель для списка лекций
      * @return Список всех лекций
      */
-    @GetMapping("/lectures")
+    @GetMapping("lectures")
     public String getAllLectures(Model model) {
         Set<Lecture> lectures = lectureService.getLectures();
 
@@ -46,7 +46,7 @@ public class LectureController {
         lecturesList.sort(Comparator.comparingLong(Lecture::getId));
         model.addAttribute("lecturesList", lecturesList);
 
-        return "/lecture/list";
+        return "lecture/list";
     }
 
     /**
@@ -56,7 +56,7 @@ public class LectureController {
      * @param lectureId Id лекции
      * @return URL lecture/detail
      */
-    @GetMapping(value = "/lecture/{id}")
+    @GetMapping(value = "lecture/{id}")
     public String getLectureById(Principal principal, Model model, @PathVariable("id") Long lectureId) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
 
@@ -81,7 +81,13 @@ public class LectureController {
         return "lecture/detail";
     }
 
-    @PostMapping("/lecture/{id}")
+    /**
+     * Обновление статуса лекции на FINISHED
+     * @param lectureId Id лекции
+     * @param principal Пользователь
+     * @return Страница лекций пользователя
+     */
+    @PostMapping("lecture/{id}")
     public String finishStatusLecture(@PathVariable("id") Long lectureId, Principal principal) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         Optional<UserLecture> userLectureOp =
@@ -91,56 +97,85 @@ public class LectureController {
             UserLecture userLecture = userLectureOp.get();
             userLecture.setStatus(Status.FINISHED);
             userLectureService.saveUserLecture(userLecture);
-        } else {
-            return "/error/page";
         }
         return "redirect:/user/lectures";
     }
 
     /**
-     * Переход на форму создания лекции
-     * @return URL /lecture/add"
+     * Страница создания лекции
+     * @return URL lecture/add"
      */
-    @GetMapping("/lecture/create")
+    @GetMapping("lecture/create")
     public String createLecture() {
         return "/lecture/add";
     }
 
-    @PostMapping("/lecture/create")
+
+    /**
+     * Создание лекции
+     * @param lecture Лекция
+     * @param model Модель для лекции
+     * @return Страница с лекциями
+     */
+    @PostMapping("lecture/create")
     public String createLecture(Lecture lecture, Model model) {
         lectureService.saveLecture(lecture);
         model.addAttribute("lecture", lecture);
         return "redirect:/lectures";
     }
 
-    @GetMapping("/lecture/{id}/update")
+    /**
+     * Страница для обновления лекции
+     * @param model Модель для лекции
+     * @param lectureId ID лекции
+     * @return Страница для обновления лекции
+     */
+    @GetMapping("lecture/{id}/update")
     public String updateLecture(Model model, @PathVariable("id") Long lectureId) {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
             model.addAttribute("lecture", lecture);
         }
-        return "/lecture/update";
+        return "lecture/update";
     }
 
-    @PostMapping("/lecture/{id}/update")
+    /**
+     * Обновление лекции
+     * @param lectureId ID лекции
+     * @param lecture Лекция
+     * @return Страница лекции
+     */
+    @PostMapping("lecture/{id}/update")
     public String updateLecture(@PathVariable("id") Long lectureId, Lecture lecture) {
         lectureService.updateLecture(lecture, lectureId);
 
         return "redirect:/lecture/" + lectureId;
     }
 
-    @GetMapping("/lecture/{id}/delete")
+    /**
+     * Страница для подтверждения удаления лекции
+     * @param model Модель для лекции
+     * @param lectureId ID лекции
+     * @return Старницу для подтверждения удаления лекции
+     */
+    @GetMapping("lecture/{id}/delete")
     public String getDeleteLecturePage(Model model, @PathVariable("id") Long lectureId) {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
             Lecture lecture = lectureOp.get();
             model.addAttribute("lecture", lecture);
         }
-        return "/lecture/delete";
+        return "lecture/delete";
     }
 
-    @PostMapping("/lecture/{id}/delete")
+    /**
+     * Удаление лекции
+     * @param model Модель для лекции
+     * @param lectureId ID лекции
+     * @return Страницу с лекциями
+     */
+    @PostMapping("lecture/{id}/delete")
     public String deleteLecture(Model model, @PathVariable("id") Long lectureId) {
         Optional<Lecture> lectureOp = lectureService.getLectureById(lectureId);
         if (lectureOp.isPresent()) {
@@ -155,7 +190,13 @@ public class LectureController {
         return "redirect:/lectures";
     }
 
-    @GetMapping("/lecture/{id}/users")
+    /**
+     * Страница пользователей, привязанных к лекции
+     * @param model Модель для списка лекций
+     * @param lectureId ID лекции
+     * @return Список пользователей, привязянных к лекции
+     */
+    @GetMapping("lecture/{id}/users")
     public String getUserLectures(Model model, @PathVariable("id") Long lectureId) {
         Set<UserLecture> userLectures = userLectureService.getUserLecturesByLectureId(lectureId);
         if (!userLectures.isEmpty()) {
@@ -163,10 +204,10 @@ public class LectureController {
             userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getUser().getId()));
             model.addAttribute("userLectures", userLecturesList);
         }
-        return "/lecture/users";
+        return "lecture/users";
     }
 
-    @GetMapping("/lectures/users")
+/*    @GetMapping("lectures/users")
     public String getUserLecturesList(Principal principal, Model model) {
         Set<Lecture> lectures = lectureService.getLectures();
         Set<UserLecture> allUserLectures = new HashSet<>();
@@ -181,10 +222,15 @@ public class LectureController {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         model.addAttribute("principal", userActive);
       //  if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
-        return "/lecture/users";
-    }
+        return "lecture/users";
+    }*/
 
-    @GetMapping("/lectures/export/excel")
+    /**
+     * Выгрузка лекций в ексель
+     * @param response HttpServletResponse
+     * @throws IOException Исключение при экспорте в ексель
+     */
+    @GetMapping("lectures/export/excel")
     public void exportToExcelLectures(HttpServletResponse response) throws IOException {
         configureResponse(response, "lectures");
 
@@ -211,7 +257,7 @@ public class LectureController {
      * @param model Модель для списка лекций
      * @return URL user/lectures
      */
-    @GetMapping("/user/lectures")
+    @GetMapping("user/lectures")
     public String getMyLectures(Principal principal, Model model) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
         Set<UserLecture> myLectures = userLectureService.getUserLecturesByUserId(userActive);
@@ -226,16 +272,13 @@ public class LectureController {
         return "user/lectures";
     }
 
-    @GetMapping("/user/{id}/lectures")
+/*    @GetMapping("user/{id}/lectures")
     public String getUserLectures(Principal principal, @PathVariable Long id, Model model) {
         User userActive = (User) userService.loadUserByUsername(principal.getName());
-      //  if (userActive.getRoles().contains(Role.ROLE_ADMIN)) model.addAttribute("master", Role.ROLE_ADMIN);
         model.addAttribute("principal", userActive);
 
         User user = userService.loadUserById(id);
-        if (user == null) {
-            return "/error/page";
-        } else {
+        if (user != null) {
             model.addAttribute("user", user);
 
             Set<UserLecture> userLectures = userLectureService.getUserLecturesByUserId(user);
@@ -243,8 +286,7 @@ public class LectureController {
             List<UserLecture> userLecturesList = new ArrayList<>(userLectures);
             userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
             model.addAttribute("userLectures", userLecturesList);
-
-            return "user/userlectures";
         }
-    }
+        return "user/userlectures";
+    }*/
 }
