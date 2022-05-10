@@ -168,7 +168,7 @@ public class LectureController {
      * Удаление лекции
      * @param model Модель для лекции
      * @param lectureId ID лекции
-     * @return Страницу с лекциями
+     * @return Страница с лекциями
      */
     @PostMapping("/lecture/{id}/delete")
     public String deleteLecture(Model model, @PathVariable("id") Long lectureId) {
