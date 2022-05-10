@@ -6,21 +6,22 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.javakids.model.Answer;
+import ru.javakids.model.AnswerDto;
+import ru.javakids.model.Lecture;
+import ru.javakids.model.Result;
+import ru.javakids.service.AnswerService;
+import ru.javakids.service.LectureService;
+import ru.javakids.service.QuestionService;
+import ru.javakids.util.AnswerUtility;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
 @Slf4j
 @PreAuthorize("isAuthenticated()")
 public class MainController {
-
-/*
-  @Autowired QuestionService questionService;
-
-  @Autowired CategoryService categoryService;
-
-  @Autowired AnswerService answerService;
-*/
 
   @PreAuthorize("permitAll()")
   @RequestMapping("/login")
@@ -29,30 +30,8 @@ public class MainController {
   }
 
   @PreAuthorize("permitAll()")
-  @GetMapping("/")
-  public String getPlayQuiz(Model model, @RequestParam("category") Optional<Long> category) {
-/*    model.addAttribute("categories", categoryService.findAll());
-    if (category.isPresent()) {
-      model.addAttribute("module", "play");
-      List<Answer> answers =
-          AnswerUtility.createAnswerList(questionService.findAll(category.get()));
-      AnswerDto answerDto = new AnswerDto(answers, category.get());
-      model.addAttribute("answerDto", answerDto);
-      return "play";
-    } else {
-      model.addAttribute("module", "play");
-      return "home";
-    }*/
+  @GetMapping({"/","home"})
+  public String getMainPage() {
     return "home";
   }
-
-/*  @PostMapping("/play")
-  public String checkQuiz(Model model, @ModelAttribute("answerDto") AnswerDto answerDto) {
-    answerDto.getAnswers().forEach(answer -> log.info(answer.toString()));
-    List<Result> results = answerService.checkAnswer(answerDto);
-    model.addAttribute("results", results);
-    model.addAttribute("score", results.stream().filter(Result::isCorrect).count());
-    return "result";
-  }*/
-
 }

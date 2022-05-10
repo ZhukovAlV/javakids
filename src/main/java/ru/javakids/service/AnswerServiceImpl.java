@@ -20,7 +20,7 @@ public class AnswerServiceImpl implements AnswerService {
   @Override
   public List<Result> checkAnswer(AnswerDto answerDto) {
     List<Result> results = new ArrayList<>();
-    Long categoryId = answerDto.getCategoryId();
+    Long categoryId = answerDto.getLectureId();
 
     answerDto
         .getAnswers()

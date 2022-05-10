@@ -9,14 +9,14 @@
 <body>
 <th:block th:insert="fragments/common :: header"></th:block>
 <div class="container mt-3">
-    <form th:action="@{'/lecture/' + ${lecture.id}}" method="post">
+    <form th:action="@{'/quiz/' + ${lecture.id}}" method="get">
         <div class="mb-3 mt-3">
             <h1 th:utext="${lecture.topic}">topic</h1>
         </div>
         <hr />
         <div class="mb-3" th:utext="${lecture.content}">content</h1>>
         </div>
-        <div sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')"><input type="submit" class="btn btn-secondary" value="Завершить"/></div>
+        <div sec:authorize="isAuthenticated() and !hasRole('ROLE_ADMIN')"><input type="submit" class="btn btn-secondary" value="Пройти тест"/></div>
     </form>
 <br><br>
     <a th:href="@{/lectures}" sec:authorize="hasRole('ROLE_ADMIN')">Назад</a> <br>
