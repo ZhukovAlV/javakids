@@ -41,7 +41,8 @@
   </div>
 </div>
 
-<th:block th:insert="fragments/common :: footer"></th:block>
+<th:block th:insert="~{fragments/common :: script}"></th:block>
 <script th:src="@{/js/question_list.js}"></script>
+<th:block th:insert="fragments/common :: footer"></th:block>
 </body>
 </html>
