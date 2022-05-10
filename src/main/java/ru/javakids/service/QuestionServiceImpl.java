@@ -36,13 +36,13 @@ public class QuestionServiceImpl implements ru.javakids.service.QuestionService 
       bindingResult.addError(
           new ObjectError("correctCount", "Atleast one option should be correct"));
     }
-    checkQuestionExistsForCategory(question, bindingResult);
+    checkQuestionExistsForLecture(question, bindingResult);
   }
 
   @Override
-  public void checkQuestionExistsForCategory(Question question, BindingResult bindingResult) {
+  public void checkQuestionExistsForLecture(Question question, BindingResult bindingResult) {
     List<Question> questionList =
-        questionRepository.findAllByCategoryId(question.getCategory().getId());
+        questionRepository.findAllByLectureId(question.getLecture().getId());
     boolean questionExists =
         questionList.stream()
             .anyMatch(
@@ -52,7 +52,7 @@ public class QuestionServiceImpl implements ru.javakids.service.QuestionService 
       bindingResult.addError(
           new ObjectError(
               "questionerror",
-              "Question already present in category " + question.getCategory().getName()));
+              "Question already present in category " + question.getLecture().getTopic()));
     }
   }
 
@@ -69,13 +69,13 @@ public class QuestionServiceImpl implements ru.javakids.service.QuestionService 
 
   @Override
   public List<Question> findAll(Long categoryId) {
-    return questionRepository.findAllByCategoryId(categoryId);
+    return questionRepository.findAllByLectureId(categoryId);
   }
 
   @Override
   public Page<Question> findAll(Long categoryId,int pageNumber, int size) {
     Pageable page = PageRequest.of(pageNumber, size);
-    return questionRepository.findAllByCategoryId(categoryId,page);
+    return questionRepository.findAllByLectureId(categoryId,page);
   }
 
   @Override
@@ -101,7 +101,7 @@ public class QuestionServiceImpl implements ru.javakids.service.QuestionService 
             .orElseThrow(() -> new IllegalArgumentException("Question not found"));
     existingQuestion.setText(question.getText());
     existingQuestion.setOptions(question.getOptions());
-    existingQuestion.setCategory(question.getCategory());
+    existingQuestion.setLecture(question.getLecture());
     return questionRepository.save(existingQuestion);
   }
 

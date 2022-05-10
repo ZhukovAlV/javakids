@@ -29,8 +29,8 @@
       </div>
     </div>
     <div class="row border-bottom mb-3">
-      <div class="col-lg-12" th:title="${question.category.name}">
-        <span class="text-muted" th:text="${question.category.name}"></span>
+      <div class="col-lg-12" th:title="${question.lecture.topic}">
+        <span class="text-muted" th:text="${question.lecture.topic}"></span>
       </div>
     </div>
     <div class="row">
@@ -57,7 +57,7 @@
     <li class="page-item" th:classappend="${i eq questions.number + 1} ? 'active'"
         th:each="i : ${#numbers.sequence( 1, questions.totalPages > 10 + questions.number
                ? questions.number + 10 : questions.totalPages, 1)}">
-      <a class="page-link" th:href="@{/questions(page=${i},category=${param.category})}" th:text="${i}"
+      <a class="page-link" th:href="@{/questions(page=${i},lecture=${param.lecture})}" th:text="${i}"
          th:title="${'Page '+ i}"
          rel="tooltip"></a>
     </li>
@@ -67,7 +67,7 @@
       </a>
     </li>
     <li class="page-item" th:if="${questions.hasNext()}">
-      <a class="page-link svg-icon" th:href="@{/questions(page=${questions.number + 2},category=${param.category})}"
+      <a class="page-link svg-icon" th:href="@{/questions(page=${questions.number + 2},lecture=${param.lecture})}"
          aria-label="Next"
          title="Next Page" rel="tooltip">
         <span aria-hidden="true">&raquo;</span>

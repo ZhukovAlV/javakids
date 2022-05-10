@@ -2,12 +2,13 @@ package ru.javakids.service;
 
 import ru.javakids.model.Lecture;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
 public interface LectureService {
 
-    Set<Lecture> getLectures();
+    List<Lecture> getLectures();
 
     Optional<Lecture> getLectureById(Long id);
 

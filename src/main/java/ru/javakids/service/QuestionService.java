@@ -85,7 +85,7 @@ public interface QuestionService {
    * @param question question
    * @param bindingResult binding result
    */
-  void checkQuestionExistsForCategory(Question question, BindingResult bindingResult);
+  void checkQuestionExistsForLecture(Question question, BindingResult bindingResult);
 
   void checkForErrorInNewQuestion(Question question, BindingResult bindingResult);
 }

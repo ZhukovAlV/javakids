@@ -26,10 +26,10 @@
       </div>
       <form action="#" th:action="@{/question}" th:object="${question}" method="post">
         <div class="form-group form-row">
-          <label for="categoryList" class="col-sm-2 col-form-label">Category</label>
+          <label for="lectureList" class="col-sm-2 col-form-label">Lectures</label>
           <div class="col-sm-10">
-            <select th:field="*{category}" class="form-control input-sm" id="categoryList">
-              <option th:each="c: ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+            <select th:field="*{lecture}" class="form-control input-sm" id="lectureList">
+              <option th:each="c: ${lectures}" th:value="${c.id}" th:text="${c.topic}"></option>
             </select>
           </div>
         </div>

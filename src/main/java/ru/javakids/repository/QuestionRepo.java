@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepo extends JpaRepository<Question, Long> {
-  List<Question> findAllByCategoryId(Long categoryId);
+  List<Question> findAllByLectureId(Long lectureId);
 
-  Page<Question> findAllByCategoryId(Long category, Pageable page);
+  Page<Question> findAllByLectureId(Long lecture, Pageable page);
 }

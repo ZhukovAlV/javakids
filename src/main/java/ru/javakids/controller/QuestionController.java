@@ -1,11 +1,5 @@
 package ru.javakids.controller;
 
-import ru.javakids.model.Category;
-import ru.javakids.model.CategoryDto;
-import ru.javakids.model.Option;
-import ru.javakids.model.Question;
-import ru.javakids.service.CategoryService;
-import ru.javakids.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -17,11 +11,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.javakids.model.Option;
+import ru.javakids.model.Question;
+import ru.javakids.service.LectureService;
+import ru.javakids.service.QuestionService;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Optional;
 
 @Controller
@@ -29,30 +25,30 @@ import java.util.Optional;
 @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class QuestionController {
 
-  @Autowired QuestionService questionService;
+  @Autowired
+  QuestionService questionService;
 
-  @Autowired CategoryService categoryService;
+  @Autowired
+  LectureService lectureService;
 
   @GetMapping({"/questions"})
   public String getHome(
       Model model,
       @RequestParam("page") Optional<Integer> page,
       @RequestParam("size") Optional<Integer> size,
-      @RequestParam("category") Optional<Long> category) {
+      @RequestParam("lecture") Optional<Long> lecture) {
     int currentPage = page.orElse(1);
     int pageSize = size.orElse(8);
-    if (category.isPresent()) {
+    if (lecture.isPresent()) {
       model.addAttribute(
-          "questions", questionService.findAll(category.get(), currentPage - 1, pageSize));
+          "questions", questionService.findAll(lecture.get(), currentPage - 1, pageSize));
     } else {
       model.addAttribute("questions", questionService.findAll(currentPage - 1, pageSize));
     }
     model.addAttribute("module", "allquestions");
-    model.addAttribute("categories", categoryService.findAll());
+    model.addAttribute("lectures", lectureService.getLectures());
     return "/quiz/question_list";
   }
-
-
 
   @GetMapping({"/question"})
   public String getAddNewQuiz(
@@ -63,7 +59,7 @@ public class QuestionController {
     question.getOptions().put(4L, new Option());
     model.addAttribute("question", question);
     model.addAttribute("module", "newquestion");
-    model.addAttribute("categories", categoryService.findAll());
+    model.addAttribute("lectures", lectureService.getLectures());
     return "/quiz/question_new";
   }
 
@@ -73,9 +69,9 @@ public class QuestionController {
       BindingResult bindingResult,
       Model model,
       RedirectAttributes redirectAttributes) {
-    questionService.checkQuestionExistsForCategory(question, bindingResult);
+    questionService.checkQuestionExistsForLecture(question, bindingResult);
     if (bindingResult.hasErrors()) {
-      model.addAttribute("categories", categoryService.findAll());
+      model.addAttribute("lectures", lectureService.getLectures());
       return "/quiz/question_new";
     }
     questionService.save(question);
@@ -92,28 +88,5 @@ public class QuestionController {
     questionService.delete(quesToDelete.getId());
     redirectAttributes.addFlashAttribute("questionDeleted", true);
     return "redirect:/questions?page=" + currentPage;
-  }
-
-  @GetMapping("/category")
-  public String getCategory(Model model) {
-    CategoryDto categoryDto = new CategoryDto();
-    categoryDto.setCategories(new ArrayList<Category>(Collections.singletonList(new Category())));
-    model.addAttribute("categoryDto", categoryDto);
-    return "/quiz/category";
-  }
-
-  @PostMapping("/category")
-  public String postCategory(
-      @ModelAttribute @Valid CategoryDto categoryDto,
-      BindingResult bindingResult,
-      RedirectAttributes redirectAttributes) {
-    // TODO: could be done using annotations may be ?
-    categoryService.checkCategoryExist(categoryDto, bindingResult);
-    if (bindingResult.hasErrors()) {
-      return "/quiz/category";
-    }
-    categoryService.saveAll(categoryDto);
-    redirectAttributes.addFlashAttribute("added", true);
-    return "redirect:/category";
   }
 }

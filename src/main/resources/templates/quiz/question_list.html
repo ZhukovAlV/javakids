@@ -15,23 +15,23 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true" style="font-size:20px">×</span>
         </button>
-        <p>Question deleted successfully</p>
+        <p>Вопрос удален</p>
       </div>
       <div class="alert alert-danger alert-dismissible" th:if="${questions.totalPages == 0}">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
           <span aria-hidden="true" style="font-size:20px">×</span>
         </button>
-        <p>No Questions present for selected category</p>
-        <a href="#" th:href="@{/question}">Add question</a>
+        <p>Нет вопросов для данной лекции</p>
+        <a href="#" th:href="@{/question}">Добавить вопрос</a>
       </div>
       <div class="row border-bottom border-left border-dark shadow p-3 mb-3 bg-white rounded">
         <div class="col-2">
-          <p>Filter by category:</p>
+          <p>Фильтр по лекциям:</p>
         </div>
         <div class="col-10">
-          <select class="form-control input-sm" id="selectCategory" onchange="onCategorySelection();">
-            <option value="0">ALL</option>
-            <option th:each="c: ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+          <select class="form-control input-sm" id="selectLecture" onchange="onLectureSelection();">
+            <option value="0">Все вопросы</option>
+            <option th:each="c: ${lectures}" th:value="${c.id}" th:text="${c.topic}"></option>
           </select>
         </div>
       </div>

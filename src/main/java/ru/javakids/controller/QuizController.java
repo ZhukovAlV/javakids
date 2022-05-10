@@ -1,9 +1,7 @@
 package ru.javakids.controller;
 
 import ru.javakids.model.Answer;
-import ru.javakids.model.Category;
 import ru.javakids.model.Question;
-import ru.javakids.service.CategoryService;
 import ru.javakids.service.QuestionService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +17,6 @@ public class QuizController {
 
   @Autowired QuestionService questionService;
 
-  @Autowired CategoryService categoryService;
-
   @GetMapping("/quizquestions")
   public List<Question> getAllQuestionRest(
       @RequestParam(value = "category", required = false) Long categoryId) {
@@ -33,15 +29,6 @@ public class QuizController {
       produces = MediaType.APPLICATION_JSON_VALUE)
   public List<Question> saveAllQuestions(@RequestBody List<Question> questions) {
     return questionService.saveAll(questions);
-  }
-
-  // Should be included in its own file if more methods are included! SOLID
-  @PostMapping(
-      value = "/quizquestions/category",
-      consumes = MediaType.APPLICATION_JSON_VALUE,
-      produces = MediaType.APPLICATION_JSON_VALUE)
-  public Category saveCategory(@RequestBody Category category) {
-    return categoryService.save(category);
   }
 
   @PostMapping(

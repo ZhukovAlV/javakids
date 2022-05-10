@@ -33,8 +33,8 @@ public class Question implements Serializable {
   private ConcurrentHashMap<Long, Option> options = new ConcurrentHashMap<>(4);
 
   @ManyToOne(cascade = CascadeType.MERGE)
-  @JoinColumn(name = "category_id", referencedColumnName = "id")
+  @JoinColumn(name = "lecture_id", referencedColumnName = "id")
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
-  private ru.javakids.model.Category category;
+  private Lecture lecture;
 }

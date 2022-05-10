@@ -6,9 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javakids.model.Lecture;
 import ru.javakids.repository.LectureRepo;
 
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class LectureServiceImpl implements LectureService {
@@ -21,10 +19,15 @@ public class LectureServiceImpl implements LectureService {
     }
 
     @Override
-    public Set<Lecture> getLectures() {
+    public List<Lecture> getLectures() {
         Set<Lecture> result = new HashSet<>();
         lectureRepo.findAll().forEach(result::add);
-        return result;
+
+        // Сортируем лекции и добавляем в model
+        List<Lecture> lecturesList = new ArrayList<>(result);
+        lecturesList.sort(Comparator.comparingLong(Lecture::getId));
+
+        return lecturesList;
     }
 
     @Override

@@ -39,12 +39,7 @@ public class LectureController {
      */
     @GetMapping("/lectures")
     public String getAllLectures(Model model) {
-        Set<Lecture> lectures = lectureService.getLectures();
-
-        // Сортируем лекции и добавляем в model
-        List<Lecture> lecturesList = new ArrayList<>(lectures);
-        lecturesList.sort(Comparator.comparingLong(Lecture::getId));
-        model.addAttribute("lecturesList", lecturesList);
+        model.addAttribute("lecturesList", lectureService.getLectures());
 
         return "/lecture/list";
     }
@@ -214,15 +209,13 @@ public class LectureController {
      */
     @GetMapping("/lectures/users")
     public String getUserLecturesList(Model model) {
-        Set<Lecture> lectures = lectureService.getLectures();
+        List<Lecture> lectures = lectureService.getLectures();
         Set<UserLecture> allUserLectures = new HashSet<>();
         for (Lecture lecture : lectures) {
             Set<UserLecture> userLectures = userLectureService.getUserLecturesByLectureId(lecture.getId());
             allUserLectures.addAll(userLectures);
         }
-        List<UserLecture> userLecturesList = new ArrayList<>(allUserLectures);
-        userLecturesList.sort(Comparator.comparingLong(userLecture -> userLecture.getLecture().getId()));
-        model.addAttribute("userLectures", userLecturesList);
+        model.addAttribute("userLectures", lectures);
         return "/lecture/users";
     }
 
@@ -235,8 +228,7 @@ public class LectureController {
     public void exportToExcelLectures(HttpServletResponse response) throws IOException {
         configureResponse(response, "lectures");
 
-        Set<Lecture> lectures = lectureService.getLectures();
-        List<Lecture> lecturesList = new ArrayList<>(lectures);
+        List<Lecture> lecturesList = lectureService.getLectures();
         lecturesList.sort(Comparator.comparingLong(Lecture::getId));
 
         ReportExcelExporter excelExporter = new ReportExcelExporter(lecturesList, "Lectures");
