@@ -1,9 +1,9 @@
-#Сайт обучения детей java
+Сайт обучения детей java
 
-#URL
+URL
 http://localhost:8080
 
-#Default credentials
+Default credentials
 admin / password 
 
 user / password
